@@ -1,0 +1,102 @@
+import os
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+import pickle
+import random
+from sklearn.model_selection in train_test_split
+from sklearn.svm import SVC
+
+
+ dir =os.listdir(r"f:\fcih\flowers"))
+
+ categories =['daisy','dandelion','rose','sunflower','tulip']
+
+ data=[]
+
+
+ for category in categories:
+     path= os.path.join(dir,category)
+     label= categories.index(category)
+
+     for img in os.listdir(path):
+        imgpath=os.path.join(path,img)
+         pet_img=cv2.imread(imgpath,0)
+         try:
+         pet_img=cv2.resize(pet_img(50,50))
+         image=np.array(pet_img).flatten()
+
+         data.append([image,label])
+         except Exception as e:
+             pass
+
+
+
+#print(len(data))
+
+#pick_in = open('data1.pickle,'wb')
+#pickle.pickle.dump(data.pick_in)
+#pick_in.close()
+
+pick_in = open('data1.pickle,'rb')
+data= pickle.load(pick_in)
+pick_in.close()
+
+random.shuffle(data)
+features=[]
+label=[]
+
+for feature,label in data:
+    features.append (feature)
+    labels.append(label)
+
+
+ xtrain,xtest,ytrain,ytest =train_test_split(features,labels,test_size=0.20)
+
+
+ model=SVC(c=1,karnel='poly'gamma='auto')
+ model.fit(xtrain,ytrain) 
+
+pick=open('medel.sav','wb') 
+pick.dump(model,pick)
+pick.close()
+
+ prediction=model.predict(xtest,ytest)
+ accuracy= model.score(xtest,ytest)
+
+ categories =['daisy','dandelion','rose','sunflower','tulip']
+
+
+ print('Accuracy:',accuracy)
+
+ print('Prediction is : ',categories[prediction[0]])
+
+
+ mypet= xtest.[0].reshape(50,50)
+ plt.inshow(mypet,cmap='gray')
+plt.show()
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+
+train_sizes, train_scores, test_scores = learning_curve(svc_clf,
+                                                        X_test, y_test, cv=10, scoring='accuracy',
+                                                        train_sizes=np.linspace(0.01, 1.0, 50))
+train_mean = np.mean(train_scores, axis=1)
+train_std = np.std(train_scores, axis=1)
+
+test_mean = np.mean(test_scores, axis=1)
+test_std = np.std(test_scores, axis=1)
+
+plt.subplots(1, figsize=(6,6))
+plt.plot(train_sizes, train_mean, '--', color='blue',  label="Training score")
+plt.plot(train_sizes, test_mean, color='blue', label="Cross-validation score")
+
+plt.title("Learning Curve")
+plt.xlabel("Training Set Size"), plt.ylabel("Accuracy Score"), plt.legend(loc="best")
+plt.tight_layout()
+plt.show()
+skplt.metrics.plot_confusion_matrix(
+    y_test, 
+    y_pred,
+    figsize=(24,24))
